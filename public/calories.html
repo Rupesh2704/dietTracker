@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Diet Tracker</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Diet Tracker</h1>
+
+        <!-- Welcome Message (Name from Local Storage) -->
+        <div id="user-display">
+            <h2>Welcome, <span id="display-name"></span>!</h2>
+        </div>
+
+        <!-- Form for Calorie Goal -->
+        <form id="goal-form">
+            <input type="number" id="calorie-goal" placeholder="Enter your calorie goal" required>
+            <button type="submit">Set Goal</button>
+        </form>
+        <h3>Your Goal: <span id="goal-display">0</span> calories</h3>
+
+        <!-- Form for Food Log -->
+        <form id="food-log-form">
+            <input type="text" id="food-item" placeholder="Enter food item" required>
+            <input type="number" id="calories" placeholder="Enter calories" required>
+            <button type="submit">Add Food</button>
+        </form>
+
+        <h2>Food Log</h2>
+        <ul id="food-log"></ul>
+    </div>
+
+    <script>
+        // Retrieve user info from local storage
+        const userName = localStorage.getItem('userName');
+        document.getElementById('display-name').textContent = userName;
+
+        let calorieGoal = 0;
+        let currentCalories = 0;
+
+        // Handle setting calorie goal
+        document.getElementById('goal-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            calorieGoal = parseInt(document.getElementById('calorie-goal').value);
+            document.getElementById('goal-display').textContent = calorieGoal;
+        });
+
+        // Handle food log submission
+        document.getElementById('food-log-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const foodItem = document.getElementById('food-item').value;
+            const calories = parseInt(document.getElementById('calories').value);
+            currentCalories += calories;
+            addFoodItem(foodItem, calories);
+            document.getElementById('food-log-form').reset();
+            updateCalorieProgress();
+        });
+
+        function addFoodItem(foodItem, calories) {
+            const foodLog = document.getElementById('food-log');
+            const listItem = document.createElement('li');
+            listItem.textContent = `${foodItem}: ${calories} calories`;
+            foodLog.appendChild(listItem);
+        }
+
+        function updateCalorieProgress() {
+            const progressDisplay = document.getElementById('calorie-progress');
+            if (!progressDisplay) {
+                const newProgressDisplay = document.createElement('p');
+                newProgressDisplay.id = 'calorie-progress';
+                newProgressDisplay.textContent = `Current Calories: ${currentCalories}/${calorieGoal}`;
+                document.body.appendChild(newProgressDisplay);
+            } else {
+                progressDisplay.textContent = `Current Calories: ${currentCalories}/${calorieGoal}`;
+            }
+        }
+    </script>
+</body>
+
+</html>

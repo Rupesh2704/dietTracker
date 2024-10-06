@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Enter Your Details</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Your Details</h1>
+        <form id="user-info-form">
+            <input type="text" id="user-name" placeholder="Enter your name" required>
+            <input type="email" id="user-email" placeholder="Enter your email" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('user-info-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            
+            // Get user name and email from the form
+            const userName = document.getElementById('user-name').value;
+            const userEmail = document.getElementById('user-email').value;
+
+            // Store user info in local storage
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userEmail', userEmail);
+
+            // Redirect to the calorie goal page
+            window.location.href = "calories.html";
+        });
+    </script>
+</body>
+</html>
